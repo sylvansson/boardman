@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, RelationId } from "typeorm";
+import { User } from "../users/users.entity";
 
 @Entity()
 export class Board {
@@ -7,4 +8,11 @@ export class Board {
 
   @Column()
   name: string;
+
+  @Column()
+  @RelationId((b: Board) => b.user)
+  userId: string;
+
+  @ManyToOne(() => User, user => user.boards, { onDelete: "CASCADE" })
+  user: User;
 }

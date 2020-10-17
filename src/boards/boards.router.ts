@@ -11,7 +11,9 @@ export function boardsRouter(repo: Repository<Board>): Router {
   });
 
   router.get("/", (req, res) => {
-    repo.find().then(boards => res.send(boards));
+    const userId = req.query.userId as string;
+    const query = userId ? { userId } : {};
+    repo.find(query).then(boards => res.send(boards));
   });
 
   router.delete("/:id", (req, res) => {
